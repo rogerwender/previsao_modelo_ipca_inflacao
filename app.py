@@ -104,6 +104,36 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+with st.expander("ℹ️ Como usar este app e como ler os resultados"):
+    st.markdown(
+        """
+**O que ele faz.** Prevê o IPCA mensal ou a meta da Selic para os próximos meses e compara
+vários modelos, testando cada um no passado para ver qual erra menos.
+
+**Passo a passo (barra lateral)**
+1. **Série:** escolha IPCA (variação mensal) ou Selic (meta).
+2. **Horizonte:** quantos meses à frente você quer prever.
+3. **Cortes do backtest:** quantas vezes cada modelo é testado no passado. Mais cortes dão uma
+   avaliação mais confiável, mas deixam o app mais lento.
+4. **Modelos:** escolha quais comparar. O modelo *Ingênuo* sempre entra, como referência.
+5. **Resultados:** veja as abas *Previsão*, *Comparação de modelos* e *Tabela*.
+
+**Como ler os números**
+- **Melhor modelo:** o que teve o menor erro médio (MAE) no backtest.
+- **MAE:** erro médio em pontos percentuais (p.p.). Com MAE de 0,15 p.p. no IPCA, o modelo errou em
+  média 0,15 ponto percentual por mês.
+- **RMSE:** parecido com o MAE, mas pesa mais os erros grandes.
+- **Ganho vs. ingênuo:** quanto o modelo erra a menos do que simplesmente repetir o último valor.
+  Se for negativo, o modelo foi pior que essa referência.
+- **Intervalo de 80%:** faixa em que o valor real caiu em cerca de 80% dos casos no backtest.
+- **Backtest walk-forward:** o modelo é treinado só com dados até certa data e prevê os meses seguintes,
+  que já aconteceram. O processo se repete em vários pontos, para simular previsões reais.
+
+**Cuidados.** Previsões não são certezas. A Selic depende de decisões futuras do Copom, e o IPCA
+sofre choques que nenhum modelo antecipa. Projeto educacional, não é recomendação de investimento.
+"""
+    )
+
 try:
     erros, previsoes = avaliar(y, horizonte, cortes, tuple(escolhidos))
 except ValueError as erro:
